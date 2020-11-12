@@ -1,14 +1,17 @@
 ![Shampoo logo](https://raw.githubusercontent.com/zbanack/shampoo/main/logo.png?token=AHDW5FK6VH24H7VJ6WR7CXS7WQZHA)
 
+### This documentation is still a WIP, so please excuse incomplete information and typos!
+
 📚 **Documentation** for the GameMaker GUI framework, Shampoo
 
-✏️ Framework v1.0; last modified 11/8/20 by [Zack Banack](https://zackbanack.com)
+✏️ Framework v1.0; last modified 11/12/20 by [Zack Banack](https://zackbanack.com)
 ___
 Shampoo is a [GameMaker Studio 2.3](https://www.yoyogames.com/) (GMS 2.3) framework. It lets you build graphical user interfaces (GUIs) using a [markup-like language](https://en.wikipedia.org/wiki/markup). Shampoo supports live-coding, so you can create and debug interfaces in real-time. Shampoo was created for rapid, lightweight interface creation and user input handling. Its development began in early 2019 and went through several major pivots and rewrites since.
 
 ⚠️ Shampoo has only been tested and verified to work on GMS 2.3 Windows export (including YoYo Compiler) and MacOSX export.
 
 ## Table of Contents
+- [Introduction](#introduction)
 - [Features](#features)
 - [Installation and Setup](#installation-and-setup)
 - [Framework Breakdown](#framework-breakdown)
@@ -25,25 +28,48 @@ Shampoo is a [GameMaker Studio 2.3](https://www.yoyogames.com/) (GMS 2.3) framew
 - [SFX and Sound Toggling](#sfx-and-sound-toggling)
 - [Known Issues and Roadmap](#known-issues-and-roadmap)
 - [Contact](#contact)
-- [FAQ](#faq)
+- [FAQ/Reminders](#faq-and-reminders)
+
+### Introduction
+In Shampoo, a "menu" or particular interface is called a **canvas**.
+
+Canvases are constructed using **[tags](#tags)**. Tags accept **[attributes](#attributes)**.
+
+Canvases are written in text `.txt` files. One canvas per file. You can change the `.txt` extension to whatever you prefer in macro `SH_FILE_EXT`.
+
+The unique identifier (UID) of a canvas is derived from its text file name. For example, a canvas file named `hello_world.txt` would have a UID of `hello_world`.
+
+The following functions are developer facing:
+- `shampoo_enabled()` returns a bool: whether or not the framework is enabled
+- `shampoo_init(bool:release_mode, string:live_updating_directory, bool:live_updating)` initializes the framework. See the section [Installation and Setup](#installation-and-setup) to learn more about how to setup Shampoo.
+- `shampoo_free()` attempts to free the framework from memory. You *probably* won't need to call this if you plan on using Shampoo throughout your entire project. Do **not** call this function inside of a canvas. Try to call it in the Begin Step or Step Event to avoid callstack errors.
+- `shampoo_update()` called each gamestep; main loop for the framework
+- `shampoo_render()` renders all canvases to the screen
+- `shampoo_show_canvas(string:UID)` shows the canvas associated with the given UID, assuming no such canvas already exists
+- `shampoo_hide_canvas(string:UID)` hides the canvas associated with the given UID.
+- `shampoo_close_all_canvases()` hides all active canvases
+- `shampoo_get_canvas(string:UID)` returns the struct of the canvas with the given UID (or undefined if not found)
+- `shampoo_set_canvas_x(string:UID, real:x)` sets the x-coord of the canvas associated with the given UID
+- `shampoo_set_canvas_y(string:UID, real:y)` sets the y-coord of the canvas associated with the given UID
+- `shampoo_set_canvas_pos(string:UID, real:x, real:y)` combination of the above two functions; sets x-coord and y-coord of the canvas associated with the given UID
 
 ### Features
 As of version 1.0, the Shampoo framework comes bundled with the following features:
 
 - Live-coding development environment so you can create and debug interfaces in real-time
-- Lightweight setup: it only takes a single function call to get the framework initialized.
+- Lightweight setup: it only takes a single function call to get the framework initialized
 - A unique markup-like language to build interfaces quick and easy
 - Buttons with ability to enable/disable them
 - Checkbox and toggles
 - Radio button groups
 - Text input with `maxlength` and `numbersOnly` attributes
 - Sliders with customizable min/max ranges and intervals
-- content overflow/linebreaks
-- custom callback functions
-- sound effect support
-- links with mixed attributes
-- tooltips
-- hex, blue-red-green, and string color support
+- Content overflow/linebreaks
+- Custom callback functions and hyperlinks
+- Sound effect support
+- Links with mixed attributes
+- Tooltips
+- Hex, blue-red-green, and string color support
 
 ### Installation and Setup
 Shampoo is compatible only with the GMS 2.3 IDE.
@@ -126,9 +152,9 @@ Inside the template project, you'll find a resource tree structured similar to t
 	* shampoo
 * Sprites
 	* shampoo
-		* Backgrounds
 		* Buttons
 		* Checkbox
+		* Demo
 		* Radio
 		* Shapes
 		* Slider
@@ -141,7 +167,7 @@ Inside the template project, you'll find a resource tree structured similar to t
 Notice that all resource types have a sub-folder called `shampoo`. Further, notice that all resources (sprites, scripts, sounds, etc.), global variables, function names, and enumerators are prefixed with either `sh_` or `shampoo_`. The reasoning for this is two-fold: to prevent naming conflicts and keep all shampoo-related assets under umbrella naming conventions.
 
 #### Fonts
-As of version 1.0, there are 12 fonts bundled with the framework. There are six header fonts of various sizes. There is an input-specific font for buttons, textboxes, checkboxes, toggles, and radio buttons. Four fonts are body fonts (regular, bold, italic, and bold-italic). Finally, included is a small font for things like tooltips or unimportant body text. The fonts are standard Arial typeface, but can be changed to whatever your project requires.
+There are 12 fonts bundled with the framework. There are six header fonts of various sizes. There is an input-specific font for buttons, textboxes, checkboxes, toggles, and radio buttons. Four fonts are body fonts (regular, bold, italic, and bold-italic). Finally, included is a small font for things like tooltips or unimportant body text. The fonts are Segoe UI typeface, but can be changed to whatever your project requires.
 
 #### Objects
 The framework only consists of two objects.
@@ -189,13 +215,13 @@ In the above example, the `main.txt` canvas file will be reloaded any time a cha
 
 A file that houses only class declaration. This is a way to organize classes across various canvas files in your project. See the Classes section for more information.
 
-### Live-Code and Release Modes
-
 ### Types
 
 Because Shampoo canvases are created from giant chunks of plaintext, the framework needs to define certain "types" so it knows what category a piece of text falls into. For example, "123" as a string is very different from 123 as a number. The following contains a list of types that Shampoo uses and can sanitize. During the string sanitization process, pieces of text are tried against the following.
 
-Note that tag attributes will be split at colons (`:`), so you can pass in multiple values for certain attributes e.g. `color=red:green` in a link tag will set the contents to red by default and green when hovering. Certain tags handle multiple colon-split attributes differently, so read up on specific tags.
+Note that tag attributes will be split at colons (`:`), so you can pass in multiple values for certain attributes.
+
+e.g. `color=red:green` in a link tag will set the contents to red by default and green when hovering. Certain tags handle multiple colon-split attributes differently, so read up on specific tags.
 
 #### Number
 A number will attempt to be parsed from a string. If no valid, non-exponential, non-decimal number can be resolved, `undefined` is returned.
@@ -204,6 +230,11 @@ Note that numbers may be whole number only, positive or negative. Decimals and e
 
 Examples of valid numbers: 123, -123, 1, -1.
 Examples of invalid numbers: 100.1, -100.0, 100e, 100^3, 10*10, 100+0
+
+Further, there are hard-coded special strings that resolve to values:
+- `1/16w`, `1/12w`, `1/10w`, `1/8w`, `1/4w`, `1/3w`, `1/2w`, `1w`, `w` returns 1/nth the width of the game's GUI width
+- `1/16h`, `1/12h`, `1/10h`, `1/8h`, `1/4h`, `1/3h`, `1/2h`, `1h`, `h` returns 1/nth the height of the game's GUI height
+- `room_speed`, `fps`, `fps_real`, `current_time`, and `get_timer` return their respective GM value
 
 #### Function
 A string that must resolve to a valid function name. If no such function can be resolved, `undefined` is returned.
@@ -220,6 +251,7 @@ Tries to parse a string to return a color. If no valid color can be parsed, `und
 Hex colors can be defined in tuples which are repeated as many times as necessary. For example: `#f0` will resolve to `#f0f0f0` and `#f00` will resolve to `#f00f00`.
 
 #### Align
+`fa_left`, `fa_right`, `fa_center`, `fa_top`, `fa_middle`, `fa_bottom` return GameMaker-equivalent values. Used for aligning the canvas respectively.
 
 #### Bool
 If a string is "0" or begins with case-insensitive "F", `false` is returned. If a string is "1" or begins with case-insensitive "T", `true` is returned. Fallback value is `undefined`.
@@ -232,6 +264,9 @@ An alphanumeric value that is wrapped with matching single or double quotes. For
 
 #### Sound
 A string that must resolve to a valid sound name. If no such sound can be resolved, `undefined` is returned.
+
+#### Canvas
+A string that must resolve to a valid canvas file name. If no such sound can be resolved, `undefined` is returned.
 
 ### Tags
 
@@ -294,7 +329,9 @@ An image can "float" if either `float-x` or `float-y` are set. While floating, a
 
 The size of the image in the canvas will default to the sprite's width and height. However, you can optionally provide `width` and `height` attributes to override these dimensions. If two inline image heights differ, a linebreak may be inserted automatically if deemed necessary to preserve canvas row overflow integrity.
 
-accepts: `image`, `frame`, `opacity`, `color`, `width`, `height`, `float-x`, `float-y`
+An image can be blended with a color using the `blend` attribute.
+
+accepts: `image`, `frame`, `alpha`, `color`, `width`, `height`, `float-x`, `float-y`, `blend`
 ___
 #### p
 Define a block of body text with various formatting attributes acceptable. These tags will terminate lines, acting as linebreaks.
@@ -323,7 +360,7 @@ ___
 #### function/f
 All content wrapped inside function tags will, when clicked, execute the callback function provided. These are essentially HTML hyperlinks. You can mix and match body font types, colors, and more non-line terminating attributes inside a singular link.
 
-The `open` attribute will open a canvas of a given UID, passed as string. Similarly, the `close` attribute will close a canvas of a given UID. If you'd like to close <this> canvas, simple pass `self`.
+The `open` attribute will open a canvas of a given UID, passed as string. Similarly, the `close` attribute will close a canvas of a given UID. If you'd like to close <this> canvas, simple pass `self`; to close all canvases, pass `all`. You can pass multiple UIDs by separating them with the `&` character.
 
 You can specify a tooltip string to appear upon link hover.
 
@@ -354,20 +391,18 @@ exampes(s):
 ```
 ___
 #### sm
-Text wrapped in these header tags will be the smallest in size, smaller than the body fonts. These tags will terminate lines, acting as linebreaks. Link support is minimal when compared to body fonts, and bold and italic fonts are not supported out-of-the-box given the limited practical usage of this tag.
+Text wrapped in these header tags will be the smallest in size, smaller than the body fonts.
 
 accepts: `undefined`
 
 exampes(s):
 ```
+[sm]This text is tiny![/sm] This text is standard size!
+```
 
-```
-```
-
-```
 ___
 #### h1
-Text wrapped in these h1 header tags will be the largest in size, as supported by the framework. These tags will terminate lines, acting as linebreaks. You can shorthand-declare these tags by starting a new line followed by a hash symbol followed by a space followed by text.
+Text wrapped in these h1 header tags will be the largest in size, as supported by the framework. You can shorthand-declare these tags by starting a new line followed by a hash symbol followed by a space followed by text.
 
 accepts: `undefined`
 
@@ -378,9 +413,12 @@ examples:
 ```
 # Hello, World!
 ```
+```
+[h1, c=red]This text is red[/h1]
+```
 ___
 #### h2
-Text wrapped in these h2 header tags are second-largest in size, as supported by the framework. These tags will terminate lines, acting as linebreaks. You can shorthand-declare these tags by starting a new line with two consecutive hash symbols followed by a space followed by text.
+Text wrapped in these h2 header tags are second-largest in size, as supported by the framework. You can shorthand-declare these tags by starting a new line with two consecutive hash symbols followed by a space followed by text.
 
 accepts: `undefined`
 
@@ -391,9 +429,12 @@ examples:
 ```
 ## Hello, World!
 ```
+```
+[center][h2]This text is centered![/h2][/center]
+```
 ___
 #### h3
-Text wrapped in these h3 header tags are third-largest in size, as supported by the framework. These tags will terminate lines, acting as linebreaks. You can shorthand-declare these tags by starting a new line with three consecutive hash symbols followed by a space followed by text.
+Text wrapped in these h3 header tags are third-largest in size, as supported by the framework. You can shorthand-declare these tags by starting a new line with three consecutive hash symbols followed by a space followed by text.
 
 accepts: `undefined`
 
@@ -404,9 +445,8 @@ examples:
 ```
 ### Hello, World!
 ```
-___
 #### h4
-Text wrapped in these h4 header tags are fourth-largest in size, as supported by the framework. These tags will terminate lines, acting as linebreaks. You can shorthand-declare these tags by starting a new line with four consecutive hash symbols followed by a space followed by text.
+Text wrapped in these h4 header tags are fourth-largest in size, as supported by the framework. You can shorthand-declare these tags by starting a new line with four consecutive hash symbols followed by a space followed by text.
 
 accepts: `undefined`
 
@@ -419,7 +459,7 @@ examples:
 ```
 ___
 #### h5
-Text wrapped in these h5 header tags are fifth-largest in size, as supported by the framework. These tags will terminate lines, acting as linebreaks. You can shorthand-declare these tags by starting a new line with five consecutive hash symbols followed by a space followed by text.
+Text wrapped in these h5 header tags are fifth-largest in size, as supported by the framework. You can shorthand-declare these tags by starting a new line with five consecutive hash symbols followed by a space followed by text.
 
 accepts: `undefined`
 
@@ -432,7 +472,7 @@ examples:
 ```
 ___
 #### h6
-Text wrapped in these h6 header tags are sixth-largest in size, right above the body fonts, as supported by the framework. These tags will terminate lines, acting as linebreaks. You can shorthand-declare these tags by starting a new line with six consecutive hash symbols followed by a space followed by text.
+Text wrapped in these h6 header tags are sixth-largest in size, right above the body fonts, as supported by the framework. You can shorthand-declare these tags by starting a new line with six consecutive hash symbols followed by a space followed by text.
 
 accepts: `undefined`
 
@@ -445,8 +485,6 @@ examples:
 ```
 ___
 #### textarea
-
-@UNFINISHED
 
 Note that you must provide a closing slash when working with textareas as they are singletons (`[textarea ... /]`). These tags will terminate lines, acting as linebreaks.
 
@@ -463,7 +501,9 @@ ___
 #### checkbox
 Note that you must provide a closing slash when working with checkboxes as they are singletons (`[checkbox ... /]`). These tags will terminate lines, acting as linebreaks.
 
-accepts: `id`, `checked`, `image`, color`, `sound`
+If attribute `value` is provided, the contents of `value` will be displayed to the right of the checkbox. By default, such text stems from `id`.
+
+accepts: `id`, `checked`, `value`, `image`, color`, `sound`
 
 exampes(s):
 ```
@@ -476,7 +516,9 @@ ___
 #### toggle
 Note that you must provide a closing slash when working with toggles as they are singletons (`[toggle ... /]`). These tags will terminate lines, acting as linebreaks.
 
-accepts: `id`, `checked`, `image`, color`, `sound`
+If attribute `value` is provided, the contents of `value` will be displayed to the right of the toggle. By default, such text stems from `id`.
+
+accepts: `id`, `checked`, `image`, `value`, color`, `sound`
 
 exampes(s):
 ```
@@ -489,7 +531,9 @@ ___
 #### radio
 Note that you must provide a closing slash when working with radio buttons as they are singletons (`[radio ... /]`). These tags will terminate lines, acting as linebreaks.
 
-accepts: `id`, `group`, `checked`, `img`, `color`, `sound`
+If attribute `value` is provided, the contents of `value` will be displayed to the right of the radio button. By default, such text stems from `id`.
+
+accepts: `id`, `group`, `checked`, `img`, `value`, `color`, `sound`
 
 exampes(s):
 ```
@@ -502,7 +546,9 @@ ___
 #### slider
 Note that you must provide a closing slash when working with sliders as they are singletons (`[slider ... /]`). These tags will terminate lines, acting as linebreaks.
 
-accepts: `id`, `min`, `max`, `interval`, `value`, `color`, `bg`, `img`, `sound`
+Below the slider, the value of the slider will be displayed, wrapped around attribute values `prefix` and `suffix`, respectively.
+
+accepts: `id`, `min`, `max`, `interval`, `value`, `color`, `bg`, `img`, `sound`, `prefix`, `suffix`
 
 exampes(s):
 ```
@@ -615,7 +661,7 @@ Specifies which frame of a given sprite to draw.
 
 type: `number`
 ___
-#### opacity
+#### alpha
 Transparency of an element (0-100), where 0 is invisible and 100 is fully-visible. Note that not all elements support this attribute.
 
 type: `number`
@@ -776,22 +822,22 @@ For compatibility purposes and future-proofing, you can define which version a p
 
 type: `string`, default: `SH_VERSION_NUMBER`
 ___
-#### xpos
+#### x,xpos
 Canvas left-x coordinate on GUI layer
 
 type: `number`, default: `16`
 ___
-#### ypos
+#### y,ypos
 Canvas left-y coordinate on GUI layer
 
 type: `number`, default: `16`
 ___
-#### width
+#### w,width
 Width of canvas, in pixels
 
 type: `number`, default: `320`
 ___
-#### height
+#### h,height
 Height of canvas, in-pixels
 
 type: `number`, default: `480`
@@ -861,12 +907,12 @@ Spread of shadow; how many pixels the shadow extends in all directions outside o
 
 type: `number`, default: `64`
 ___
-#### padding
+#### pad,padding
 Padding, in pixels, between canvas content and border of canvas
 
 type: `number`, default: `16`
 ___
-#### radius
+#### rad,radius
 How rounded the corners of the canvas are, in pixels (where radius of corner "circles" = value)
 
 type: `number`, default: `16`
@@ -881,27 +927,27 @@ Color of the full-screen rectangle
 
 type: `color`, default: `SH_BLACK`
 ___
-#### coverup-opacity
+#### coverup-alpha
 Transparency (0-100) of the full-screen rectangle, where 0 is invisible and 100 is fully-visible
 
 type: `number`, default: `60`
 ___
-#### clickout
+#### fragile
 Should the canvas be closed automatically when it 1) has priority 2) a click occurs outside of its bounds
 
 type: `bool`, default: `false`
 ___
-#### color
+#### c,color,,colour
 Canvas text color
 
 type: `color`, default: `SH_BLACK`
 ___
 #### bg
-Canvas color background, only visible should no background image be set
+canvas color background, only visible should no background image be set -- otherwise, the background is blended this color
 
 type: `color`, default: `c_white`
 ___
-#### image
+#### img,image
 Canvas background image
 
 type: `sprite`, default: `undefined`
@@ -944,22 +990,51 @@ ___
 #### openEaseX
 Horizontal ease function when canvas is created
 
+You can pass three arguments to this attribute as a shorthand way to combine this attribute, `openEaseXDuration`, and `openEaseXDuration` together.
+
 type: `ease`, default: `ShEase.easeLinear`
+
+example(s):
+```
+[meta, openEaseX=linear:50,room_speed /]
+```
 ___
 #### openEaseY
 Vertical ease function when canvas is created
 
+You can pass three arguments to this attribute as a shorthand way to combine this attribute, `openEaseYDuration`, and `openEaseYDuration` together.
+
 type: `ease`, default: `ShEase.easeLinear`
+
+example(s):
+```
+[meta, openEaseY=linear:50,room_speed /]
+```
 ___
 #### closeEaseX
 Horizontal ease function when canvas is destroyed
 
+You can pass three arguments to this attribute as a shorthand way to combine this attribute, `closeEaseXDuration`, and `closeEaseXDuration` together.
+
+
 type: `ease`, default: `ShEase.easeLinear`
+
+example(s):
+```
+[meta, closeEaseX=linear:50,room_speed /]
+```
 ___
 #### closeEaseY
 Vertical ease function when canvas is destroyed
 
+You can pass three arguments to this attribute as a shorthand way to combine this attribute, `closeEaseYDuration`, and `closeEaseYDuration` together.
+
 type: `ease`, default: `ShEase.easeLinear`
+
+example(s):
+```
+[meta, closeEaseY=linear:50,room_speed /]
+```
 ___
 #### openEaseXDuration
 Horizontal ease duration (in steps) when canvas is created
@@ -1010,11 +1085,14 @@ Notice the script has `canvas` as its argument. This variable is the canvas that
 
 We can use a combination of the `sh_var_catch` function and the `sh_var_replacement` function discussed in the Variables and Dynamic Content section to store and set canvas input throughout the duration of the game.
 
+⚠️ You may notice that certain characters (`[],=:'"~$`) cannot be entered into textareas. This is a means of preventing code injection and will be addressed in a future version of Shampoo.
+
 The following functions will return values for repsective input types:
-- **textarea_get_value(id)**: returns a textarea input value
-- **slider_get_value(id)**: returns a given slider's value
-- **checkbox_get_checked(id)**: return checked status of a given checkbox (or toggle)
-- **radio_group_get_value(group_id)**: returns radio group selection value, or undefined
+- **textarea_get_value(string:id)**: returns a textarea input value
+- **slider_get_value(string:id)**: returns a given slider's value
+- **checkbox_get_checked(string:id)**: return checked status of a given checkbox (or toggle)
+- **radio_group_get_value(string:group_id)**: returns radio group selection value, or undefined
+- **radio_get_checked(string:groupd_id, string:id)**: return checked status of a given radio button in a group 
 
 example:
 ```
@@ -1094,7 +1172,8 @@ function sh_var_catch(canvas) {
 ```
 
 ### Symbols
-You can insert symbols in-line with text. Symbols will inherit the current text color and text. Symbols stem from the included framework sprite, `SH_IMG_SYMBOLS`. To insert a symbol in text, simply write `&symbX;`, where X is the frame number of sprite `SH_IMG_SYMBOLS` you wish to insert. For example, if you want to insert the first image between two words, you'd write the following:
+You can insert symbols in-line with text. Graphics are courtesy of [BoxIcons](https://boxicons.com). Symbols will inherit the current text color and text. Symbols stem from the included framework sprite, `SH_IMG_SYMBOLS`. To insert a symbol in text, simply write `&symbX;`, where X is the frame number of sprite `SH_IMG_SYMBOLS` you wish to insert. For example, if you want to insert the first image between two words, you'd write the following:
+
 
 ```
 [p]Hello&symb0;world![/p]
@@ -1139,6 +1218,8 @@ You can escape a newline from being created by ending a given line with the esca
 
 Perhaps most importantly, you will need to escape from commas in quotes within a tag. Otherwise, the tokenizer will think you're ending the current attribute value. While this is not ideal, it drastical speeds up the tokenization process.
 
+See [User Input and Capturing](#user-input-and-capturing) for important information regarding textarea input and which characters are invalid.
+
 ```
 [textbox, value="This value~, right here~, has commas" /]
 [button, label="Hello~, World!", bg=blue, radius=5, c=white /]
@@ -1157,7 +1238,7 @@ Use function `shampoo_sound_enable(bool)` to enable or disable sound effects bei
 ### Known Issues and Roadmap
 Shampoo is sold "as-is" with no guarentees of future updates, bug fixes, or support. However, that doesn't rule out the possibility of improvements down the road. Below you'll find potential patches and features should Shampoo get updated:
 - Animated images are not supported via `img` tags. If you wish to draw an animated graphic on a canvas, consider using the meta `onDraw` callback to draw directly ontop of the canvas.
-- Link and text customization within `sm` tags are limited given the lack of perceived value for the tags.
+- Cleaner sanitization of user input
 - Non-optimal text parsing and redundant scripts
 - Decimals and exponentials are not supported in `NUMBER` types
 - More support for transparency tags.
@@ -1174,9 +1255,19 @@ Shampoo is sold "as-is" with no guarentees of future updates, bug fixes, or supp
 ### Contact
 If you wish to report a bug, contact, or support the Shampoo developer, send an email to zbanack (at) gmail (dot) com or reach out on Twitter @zackbanack.
 
-### FAQ:
-- make sure space after {$var} for singletons, like slider, or value may not be parsed
+### FAQ and Reminders
+##### My `{$var}` isn't being parsed out of the document
+	- Try adding a space after `{$var}` for singleton tags, like `slider`, or value may not be tokenized correctly
+	- Make sure you're wrapping quotes, where necessary
+	- Make sure you're escaping certain characters, like commas and nested quotes
+
+#### Misc
 - If you want two buttons to be side by side, make sure you set the "height" attribute to the exact same value otherwise a line break is forced for mixed content heights
 - Make sure commas and quotes are escaped correctly in strings
 - Make sure disable file sandbox is checked in global game Settings
 - Quotes around textarea `value`, even if using `numbersOnly` attribute
+- callback functions need to be in global scope
+- If TESTLOAD.txt isn't loading, make sure everything is written on one line with no linebreaks
+- Use `SH_THIS_CANVAS` to reference the canvas at *this* scope
+- Ensure TESTLOAD.txt and CLASSES.txt are placed in your `shampoo` live-code directory and Included Files Directory
+- Do not name .txt files `self` or `all`
