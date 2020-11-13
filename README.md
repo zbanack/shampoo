@@ -1,18 +1,20 @@
 ![Shampoo logo](https://raw.githubusercontent.com/zbanack/shampoo/main/logo.png?token=AHDW5FK6VH24H7VJ6WR7CXS7WQZHA)
 
 ### This documentation is still a WIP, so please excuse incomplete information and typos!
+#### The highly in-depth demo included with the framework should be more than enough to show you a majority of features.
 
 📚 **Documentation** for the GameMaker GUI framework, Shampoo
 
-✏️ Framework v1.0; last modified 11/12/20 by [Zack Banack](https://zackbanack.com)
+✏️ Framework v0.9; last modified 11/13/20 by [Zack Banack](https://zackbanack.com)
 ___
 Shampoo is a [GameMaker Studio 2.3](https://www.yoyogames.com/) (GMS 2.3) framework. It lets you build graphical user interfaces (GUIs) using a [markup-like language](https://en.wikipedia.org/wiki/markup). Shampoo supports live-coding, so you can create and debug interfaces in real-time. Shampoo was created for rapid, lightweight interface creation and user input handling. Its development began in early 2019 and went through several major pivots and rewrites since.
 
-⚠️ Shampoo has only been tested and verified to work on GMS 2.3 Windows export (including YoYo Compiler) and MacOSX export.
+⚠️ Shampoo has only been tested and verified to work on GMS 2.3 Windows export (including YoYo Compiler) and MacOSX export.​
 
 ## Table of Contents
 - [Introduction](#introduction)
 - [Features](#features)
+- [Roadmap](#roadmap)
 - [Installation and Setup](#installation-and-setup)
 - [Framework Breakdown](#framework-breakdown)
 - [Types](#types)
@@ -26,7 +28,6 @@ Shampoo is a [GameMaker Studio 2.3](https://www.yoyogames.com/) (GMS 2.3) framew
 - [Character Escaping](#character-escaping)
 - [Spaces and Linebreaks](#spaces-and-linebreaks)
 - [SFX and Sound Toggling](#sfx-and-sound-toggling)
-- [Known Issues and Roadmap](#known-issues-and-roadmap)
 - [Contact](#contact)
 - [FAQ/Reminders](#faq-and-reminders)
 
@@ -52,24 +53,37 @@ The following functions are developer facing:
 - `shampoo_set_canvas_x(string:UID, real:x)` sets the x-coord of the canvas associated with the given UID
 - `shampoo_set_canvas_y(string:UID, real:y)` sets the y-coord of the canvas associated with the given UID
 - `shampoo_set_canvas_pos(string:UID, real:x, real:y)` combination of the above two functions; sets x-coord and y-coord of the canvas associated with the given UID
+- `shampoo_refresh_canvas(string:UID)` refreshes a canvas of a given UID
+- `shampoo_sanitize(string:str)` escapes characters and sanitizes a string; done automatically to text entered via textareas
 
 ### Features
-As of version 1.0, the Shampoo framework comes bundled with the following features:
-
 - Live-coding development environment so you can create and debug interfaces in real-time
 - Lightweight setup: it only takes a single function call to get the framework initialized
 - A unique markup-like language to build interfaces quick and easy
 - Buttons with ability to enable/disable them
+- Draggable interfaces
 - Checkbox and toggles
 - Radio button groups
-- Text input with `maxlength` and `numbersOnly` attributes
+- Text input with maxlength and numbersOnly attributes
 - Sliders with customizable min/max ranges and intervals
 - Content overflow/linebreaks
-- Custom callback functions and hyperlinks
-- Sound effect support
-- Links with mixed attributes
+- Custom callback functions and in-line hyperlinks
+- Sound effect (and toggling) support
 - Tooltips
-- Hex, blue-red-green, and string color support
+- Hex, blue-red-green, and string color support, with a built-in palette
+- onLoad, onStep, onClose, onDraw, onDrag listeners
+- Out-of-the-box window resizing support
+
+### Roadmap
+- Out-of-the-box HTML5 support​
+- Dropdown menus
+- More advanced textareas and input interception
+- Paginations
+- More efficient text parsing and character escaping
+- Better number support (e.g. decimals operators)
+- Element padding, margins
+- Scrollviews
+- Lists, expansion of indentation logic
 
 ### Installation and Setup
 Shampoo is compatible only with the GMS 2.3 IDE.
@@ -100,6 +114,7 @@ Resource Tree hamburger button -> Included Files -> Open in Explorer
 ```
 shampoo_init(
 	false,
+	true, // built-in window resize handling
 	"shampoo/directory/goes/here/",
 	true
 );
@@ -108,6 +123,7 @@ For example, I created a shampoo folder on my desktop, so this is my function:
 ```
 shampoo_init(
 	false,
+	true, // built-in window resize handling
 	"C:/Users/Zack/Desktop/shampoo/",
 	true
 );
@@ -125,13 +141,15 @@ For example, suppose the following is my live-code folder:
 	- CLASSES.txt
 	- TESTLOAD.txt
 	- hello_world.txt
+	- second.txt
+	- third.txt
 
 The contents of TESTLOAD.txt are:
 ```
-open:hello_world.txt
+open:hello_world.txt&third.txt
 ```
 
-If I make changes in any live-code folder, all canvases will be removed and `hello_world.txt` will be opened per my TESTLOAD.txt instructions.
+If I make changes in any live-code folder, all canvases will be removed and `hello_world.txt` and `third.txt` will be opened per my TESTLOAD.txt instructions.
 
 ### Framework Breakdown
 Inside the template project, you'll find a resource tree structured similar to the following:
@@ -336,7 +354,7 @@ ___
 #### p
 Define a block of body text with various formatting attributes acceptable. These tags will terminate lines, acting as linebreaks.
 
-accepts: `color`, `bg`, `radius`, `pad`, `pad-r`, `pad-d`, `pad-l`, `pad-u`
+accepts: `color`, `bg`, `radius`, `border`, `border-r`, `border-d`, `border-l`, `border-u`
 
 example(s):
 ```
@@ -347,7 +365,7 @@ ___
 #### span
 This tag is identical to the aforementioned `p` tag, except it will not terminate lines. You can use this tag to customize text within a paragraph, e.g. highlight certain words or change text colors.
 
-accepts: `color`, `bg`, `radius`, `pad`, `pad-r`, `pad-d`, `pad-l`, `pad-u`
+accepts: `color`, `bg`, `radius`, `border`, `border-r`, `border-d`, `border-l`, `border-u`
 
 example(s):
 ```
@@ -721,8 +739,8 @@ For use with links, this is the color of the underline that appears when the cur
 
 type: `color`
 ___
-#### pad/pad-r/pad-d/pad-l/pad-u
-Padding around the **background** of an element. Note this functionality is quite limited and only meant to add breathing room to background colors. It doesn't affect position of the element itself.
+#### border/border-r/border-d/border-l/border-u
+Border around the **background** of an element. Note this functionality is quite limited and only meant to add breathing room to background colors. It doesn't affect position of the element itself.
 
 type: `number`
 ___
@@ -814,6 +832,14 @@ Certain tags, like horizontal rules and function links, accept this attribute. I
 
 type: `number`
 
+example(s):
+```
+[hr, h=12, thickness=4, c=#2980B9 /]
+```
+```
+[function, src=test_callback_function, underline=blue, th=2, c=blue /]
+```
+
 ### Meta
 Meta attributes are attributes that work exclusively with the `meta` tag. Meta attributes affect the entire canvas.
 
@@ -879,6 +905,12 @@ type: `function`, default: `undefined`
 ___
 #### onDraw
 *Draw* function to call each game step the canvas exists; `x1`, `y1`, `x2`, `y2` reference bounding coords of canvas, respectively
+
+type: `function`, default: `undefined`
+___
+___
+#### onDrag
+Function called while element is being dragged
 
 type: `function`, default: `undefined`
 ___
@@ -1076,6 +1108,62 @@ y-coord relative to canvas position; where canvas vertically eases from when des
 
 type: `number`, default: `0`
 
+___
+#### draggable
+is the canvas draggable? if yes, it can be moved around the screen; will set meta attribute `rad` to 0
+
+type: `bool`, default: `SH_DEFAULT_DRAGGABLE`
+___
+#### drag-height
+height, in px, of draggable caption area
+
+type: `number`, default: `SH_DEFAULT_CAPTION_HEIGHT`
+___
+#### caption
+string in caption area
+
+type: `number`, default: `SH_DEFAULT_CAPTION`
+___
+#### caption-color
+color of caption string
+
+type: `number`, default: `SH_DEFAULT_CAPTION_COLOR`
+___
+#### caption-color-hover
+color of caption string while being dragged
+
+type: `number`, default: `SH_DEFAULT_CAPTION_COLOR_HOVER`
+___
+#### caption-halign
+horizontal alignment of caption string
+
+type: `ALIGN`, default: `SH_DEFAULT_CAPTION_HALIGN`
+___
+#### caption-bg
+ background color of caption
+
+type: `color`, default: `SH_DEFAULT_CAPTION_BKG_COLOR`
+___
+#### caption-bg-hover
+background color of caption while being dragged
+
+type: `color`, default: `SH_DEFAULT_CAPTION_BKG_COLOR_HOVER`
+___
+#### ticker-color
+ticker color on text input
+
+type: `color`, default: `SH_DEFAULT_CAPTION_BKG_COLOR_HOVER`
+___
+#### placeholder-color
+placeholder text color
+
+type: `color`, default: `SH_TEXTBOX_PLACEHOLDER_COLOR`
+___
+#### placeholder-color-focus
+placeholder text color while in focus
+
+type: `color`, default: `SH_TEXTBOX_PLACEHOLDER_COLOR_FOCUS`
+
 ### User Input and Capturing
 This section builds off the concepts of textareas, checkboxes, toggles, radio buttons, and sliders already established in the Tags section.
 
@@ -1085,14 +1173,19 @@ Notice the script has `canvas` as its argument. This variable is the canvas that
 
 We can use a combination of the `sh_var_catch` function and the `sh_var_replacement` function discussed in the Variables and Dynamic Content section to store and set canvas input throughout the duration of the game.
 
-⚠️ You may notice that certain characters (`[],=:'"~$`) cannot be entered into textareas. This is a means of preventing code injection and will be addressed in a future version of Shampoo.
-
 The following functions will return values for repsective input types:
 - **textarea_get_value(string:id)**: returns a textarea input value
 - **slider_get_value(string:id)**: returns a given slider's value
 - **checkbox_get_checked(string:id)**: return checked status of a given checkbox (or toggle)
 - **radio_group_get_value(string:group_id)**: returns radio group selection value, or undefined
-- **radio_get_checked(string:groupd_id, string:id)**: return checked status of a given radio button in a group 
+- **radio_get_checked(string:groupd_id, string:id)**: return checked status of a given radio button in a group
+
+You can also use the following functions to disable/enable input elements:
+- **textarea_set_enable(string:id, bool:enabled)**: either enables or disables a textarea
+- **slider_set_enabled(string:id, bool:enabled)**: either enables or disables a slider
+- **checkbox_set_enabled(string:id, bool:enabled)**: either enables or disables a checkbox
+- **toggle_set_enabled(string:id, bool:enabled)**: see checkbox_set_enabled
+- **toggle_set_enabled(string:group_id, string:id, bool:enabled)**: either enables or disables a radio button
 
 example:
 ```
@@ -1235,23 +1328,6 @@ The tokenizer will split words at spaces ` ` and dashes `-`. Any spaces that app
 ### SFX and Sound Toggling
 Use function `shampoo_sound_enable(bool)` to enable or disable sound effects being played via the Shampoo `sh_play_sound` function. You may want to tie this function call to your existing sound toggle logic. Or, simple bypass using this function call and directly set globalvar `SH_SOUND_ENABLED` though that is not recommended for Shampoo future-proofing.
 
-### Known Issues and Roadmap
-Shampoo is sold "as-is" with no guarentees of future updates, bug fixes, or support. However, that doesn't rule out the possibility of improvements down the road. Below you'll find potential patches and features should Shampoo get updated:
-- Animated images are not supported via `img` tags. If you wish to draw an animated graphic on a canvas, consider using the meta `onDraw` callback to draw directly ontop of the canvas.
-- Cleaner sanitization of user input
-- Non-optimal text parsing and redundant scripts
-- Decimals and exponentials are not supported in `NUMBER` types
-- More support for transparency tags.
-- More elaborate padding for elements
-- Indentation and lists
-- Smoother text rendering
-- Allowance of multiple instances of the same canvas UID to be open simultaneously
-- Expansion of text input
-- Scroll views
-- Paginators
-- Callback function parameters
-- Symbol rendering on input elements, not just body & header text
-
 ### Contact
 If you wish to report a bug, contact, or support the Shampoo developer, send an email to zbanack (at) gmail (dot) com or reach out on Twitter @zackbanack.
 
@@ -1263,10 +1339,10 @@ If you wish to report a bug, contact, or support the Shampoo developer, send an 
 
 #### Misc
 - If you want two buttons to be side by side, make sure you set the "height" attribute to the exact same value otherwise a line break is forced for mixed content heights
-- Make sure commas and quotes are escaped correctly in strings
-- Make sure disable file sandbox is checked in global game Settings
-- Quotes around textarea `value`, even if using `numbersOnly` attribute
-- callback functions need to be in global scope
+- Make sure commas, colons, brackets, and quotes are escaped correctly in strings
+- Make sure to disable file sandbox is checked in Global Game Settings
+- Don't forget quotes around textarea `value`, even if using `numbersOnly` attribute
+- Callback functions need to be in global scope
 - If TESTLOAD.txt isn't loading, make sure everything is written on one line with no linebreaks
 - Use `SH_THIS_CANVAS` to reference the canvas at *this* scope
 - Ensure TESTLOAD.txt and CLASSES.txt are placed in your `shampoo` live-code directory and Included Files Directory
