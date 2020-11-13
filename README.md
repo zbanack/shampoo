@@ -128,7 +128,7 @@ shampoo_init(
 	true
 );
 ```
-The first parameter of `shampoo_init` is whether the game is in "release mode" or not. **When it comes time for you to release your game to world, make sure you set this flag to `true`!** When release mode is true, Shampoo will read files in Included Files, not from your live-coding directory. If you wish to temporary disable live-coding, but stay in non-release mode, set the third parameter to `false`.
+The first parameter of `shampoo_init` is whether the game is in "release mode" or not. **When it comes time for you to release your game to world, make sure you set this flag to `true`!** When release mode is true, Shampoo will read files in Included Files, not from your live-coding directory. If you wish to temporary disable live-coding, but stay in non-release mode, set the last parameter to `false`.
 
 While live-coding, the game will check the Shampoo directory every `SH_LIVE_REFRESH_RATE` game steps for file changes. If a file change happens, the game will read `TESTLOAD.txt` and load the canvas described in it.
 
@@ -227,7 +227,7 @@ example(s):
 open:main.txt
 ```
 
-In the above example, the `main.txt` canvas file will be reloaded any time a change is detected in any canvas file.
+In the above example, the `main.txt` canvas file will be reloaded any time a change is detected in any canvas file. See Installation section above for more information.
 
 ##### CLASSES
 
@@ -510,7 +510,7 @@ accepts: `id`, `width`, `height`, `value`, `img`, `maxlength`, `numbersOnly`, `p
 
 exampes(s):
 ```
-
+[textarea, id="favorite_number", indent=64, placeholder="My fave # is ___"", value="{$var}", maxlength=2, numbersOnly=true, img=SH_IMG_TEXTAREA_BLUE /]
 ```
 ```
 
@@ -817,6 +817,10 @@ type: `sound`
 example(s):
 ```
 [button, id="btn", label="Click Me!", sound=snd_enabled:snd_disabled, disabled=false /]
+```
+```
+[button, id="name_button", close=self, open=shopping_list&toggles, img=SH_IMG_BUTTON_BLUE, c=white, label="Continue", hover-y=2, disable-shake=true, sound=SH_SND_BUTTON:SH_SND_CLICK_DISABLED /]
+
 ```
 
 In the above example, `snd_enabled` will play when the user clicks the button when it's not disabled. If the button *is* disabled, `snd_disabled` will play.
