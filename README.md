@@ -5,7 +5,7 @@
 
 📚 **Documentation** for the GameMaker GUI framework, Shampoo
 
-✏️ Framework v0.9; last modified 11/13/20 by [Zack Banack](https://zackbanack.com)
+✏️ Framework v0.9.1; last modified 11/19/20 by [Zack Banack](https://zackbanack.com)
 ___
 Shampoo is a [GameMaker Studio 2.3](https://www.yoyogames.com/) (GMS 2.3) framework. It lets you build graphical user interfaces (GUIs) using a [markup-like language](https://en.wikipedia.org/wiki/markup). Shampoo supports live-coding, so you can create and debug interfaces in real-time. Shampoo was created for rapid, lightweight interface creation and user input handling. Its development began in early 2019 and went through several major pivots and rewrites since.
 
@@ -88,7 +88,7 @@ The following functions are developer facing:
 ### Installation and Setup
 Shampoo is compatible only with the GMS 2.3 IDE.
 
-The framework can be purchased on [itch.io](https://zackbanack.itch.io/shampoo). Please see the marketplace listing for more information on purchasing, distribution, and warranty.
+The framework can be purchased on [itch.io](https://zackbanack.itch.io/shampoo) and the [YoYo Games Marketplace](https://marketplace.yoyogames.com/assets/9536/shampoo-markup-gui-framework). Please see the marketplace listing for more information on purchasing, distribution, and warranty.
 
 1. Install GMS2.3
 2. Purchase Shampoo using the link above
