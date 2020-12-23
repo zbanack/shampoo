@@ -28,6 +28,7 @@ Shampoo is a [GameMaker Studio 2.3](https://www.yoyogames.com/) (GMS 2.3) framew
 - [Variables and Dynamic Content](#variables-and-dynamic-content)
 - [Symbols](#symbols)
 - [Classes](#classes)
+- [Screen Sizes](#screen-sizes)
 - [Character Escaping](#character-escaping)
 - [Spaces and Linebreaks](#spaces-and-linebreaks)
 - [SFX and Sound Toggling](#sfx-and-sound-toggling)
@@ -242,6 +243,8 @@ Further, there are hard-coded special strings that resolve to values:
 
 ### Function
 A string that must resolve to a valid function name. If no such function can be resolved, `undefined` is returned.
+
+You may pass arguments into this function using the following syntax: `my_function?args=first_arg&second_arg&third_arg`. Please note that arguments are passed as strings, so if you are expecting a number, you must cast using `real(argument)`.
 
 ### Sprite
 A string that must resolve to a valid sprite name. If no such sprite can be resolved, `undefined` is returned.
@@ -1413,7 +1416,7 @@ The secondary, background color of an element. Some elements allow for this back
 
 | property | value
 --- | ---
-type | `NUMBER`
+type | `COLOR`
 defaultValue | `undefined`
 isMeta | `false`
 since | `0.9.0`
@@ -1448,7 +1451,7 @@ This is a secondary background accent color that is used rarely for certain inpu
 
 | property | value
 --- | ---
-type | `NUMBER`
+type | `COLOR`
 defaultValue | `undefined`
 isMeta | `false`
 since | `0.9.0`
@@ -1678,7 +1681,7 @@ The canvas name(s) that should be closed when clicking/pressing on a button or l
 
 | property | value
 --- | ---
-type | `NUMBER`
+type | `CANVAS`
 defaultValue | `undefined`
 isMeta | `false`
 since | `0.9.0`
@@ -1721,7 +1724,7 @@ The primary blend color of the element. Some elements allow for this color to be
 
 | property | value
 --- | ---
-type | `NUMBER`
+type | `COLOR`
 defaultValue | `undefined`
 isMeta | `false`
 since | `0.9.0`
@@ -1760,7 +1763,7 @@ For use with buttons and input elements. If `true`, the element will be disabled
 
 | property | value
 --- | ---
-type | `NUMBER`
+type | `BOOL`
 defaultValue | `undefined`
 isMeta | `false`
 since | `0.9.0`
@@ -1916,7 +1919,7 @@ The callback function that is executed when clicking/pressing on a button or lin
 
 | property | value
 --- | ---
-type | `NUMBER`
+type | `FUNCTION`
 defaultValue | `undefined`
 isMeta | `false`
 since | `0.9.0`
@@ -1986,7 +1989,7 @@ If `true`, certain input elements receive a canvas-wide hitmask to make clicking
 
 | property | value
 --- | ---
-type | `NUMBER`
+type | `BOOL`
 defaultValue | `undefined`
 isMeta | `false`
 since | `0.9.2`
@@ -2087,7 +2090,7 @@ Specifies which sprite to draw. Use [**frame**](#frame-attribute) to draw a spec
 
 | property | value
 --- | ---
-type | `NUMBER`
+type | `SPRITE`
 defaultValue | `undefined`
 isMeta | `false`
 since | `0.9.0`
@@ -2122,7 +2125,7 @@ This is a secondary sprite to draw, used rarely for certain input types, like sl
 
 | property | value
 --- | ---
-type | `NUMBER`
+type | `SPRITE`
 defaultValue | `undefined`
 isMeta | `false`
 since | `0.9.0`
@@ -2192,7 +2195,7 @@ For use with radio buttons, checkboxes, and toggles. If `true`, this input eleme
 
 | property | value
 --- | ---
-type | `NUMBER`
+type | `BOOL`
 defaultValue | `undefined`
 isMeta | `false`
 since | `0.9.0`
@@ -2231,7 +2234,7 @@ For use with radio buttons, define which group a given radio button belongs to. 
 
 | property | value
 --- | ---
-type | `NUMBER`
+type | `ID`
 defaultValue | `undefined`
 isMeta | `false`
 since | `0.9.0`
@@ -2270,7 +2273,7 @@ A unique identifier for an input type or button.
 
 | property | value
 --- | ---
-type | `NUMBER`
+type | `ID`
 defaultValue | `undefined`
 isMeta | `false`
 since | `0.9.0`
@@ -2458,7 +2461,7 @@ For use with textfields; if `true`, the textfield will only accept numbers (real
 
 | property | value
 --- | ---
-type | `NUMBER`
+type | `BOOL`
 defaultValue | `undefined`
 isMeta | `false`
 since | `0.9.0`
@@ -2493,7 +2496,7 @@ For use with input elements (e.g. checkboxes, toggles, radio buttons, sliders, a
 
 | property | value
 --- | ---
-type | `NUMBER`
+type | `STRING`
 defaultValue | `undefined`
 isMeta | `false`
 since | `0.9.0`
@@ -2532,7 +2535,7 @@ Plaintext string that is rendered ontop of certain elements, like buttons.
 
 | property | value
 --- | ---
-type | `NUMBER`
+type | `STRING`
 defaultValue | `undefined`
 isMeta | `false`
 since | `0.9.0`
@@ -2567,7 +2570,7 @@ The canvas name(s) that should be opened when clicking/pressing on a button or l
 
 | property | value
 --- | ---
-type | `NUMBER`
+type | `CANVAS`
 defaultValue | `undefined`
 isMeta | `false`
 since | `0.9.0`
@@ -2637,7 +2640,7 @@ If the textfield string is empty, this placeholder string will be drawn. The col
 
 | property | value
 --- | ---
-type | `NUMBER`
+type | `STRING`
 defaultValue | `undefined`
 isMeta | `false`
 since | `0.9.0`
@@ -2703,7 +2706,7 @@ If `true`, the canvas will shake horizontally when a disabled button, link, or i
 
 | property | value
 --- | ---
-type | `NUMBER`
+type | `BOOL`
 defaultValue | `undefined`
 isMeta | `false`
 since | `0.9.0`
@@ -2734,7 +2737,7 @@ If an element is interacted with (e.g. clicked/pressed), a sound may play assumi
 
 | property | value
 --- | ---
-type | `NUMBER`
+type | `SOUND`
 defaultValue | `undefined`
 isMeta | `false`
 since | `0.9.0`
@@ -2804,7 +2807,7 @@ When the cursor is ontop of an element that has this attribute defined, such tex
 
 | property | value
 --- | ---
-type | `NUMBER`
+type | `STRING`
 defaultValue | `undefined`
 isMeta | `false`
 since | `0.9.0`
@@ -2839,7 +2842,7 @@ For use with links, this is the color of the underline that appears when the cur
 
 | property | value
 --- | ---
-type | `NUMBER`
+type | `COLOR`
 defaultValue | `undefined`
 isMeta | `false`
 since | `0.9.0`
@@ -2870,7 +2873,7 @@ The string of text that is to the left of the [**input_value**](#input_value-att
 
 | property | value
 --- | ---
-type | `NUMBER`
+type | `STRING`
 defaultValue | `undefined`
 isMeta | `false`
 since | `0.9.0`
@@ -2901,7 +2904,7 @@ The string of text that is to the right of the [**input_value**](#input_value-at
 
 | property | value
 --- | ---
-type | `NUMBER`
+type | `STRING`
 defaultValue | `undefined`
 isMeta | `false`
 since | `0.9.0`
@@ -3045,7 +3048,7 @@ The string of text that is to the right of the [**input_value**](#input_value-at
 
 | property | value
 --- | ---
-type | `NUMBER`
+type | `STRING`
 defaultValue | `undefined`
 isMeta | `false`
 since | `0.9.0`
@@ -3146,7 +3149,7 @@ If the textfield string is empty, this placeholder string will be drawn. The col
 
 | property | value
 --- | ---
-type | `NUMBER`
+type | `STRING`
 defaultValue | `undefined`
 isMeta | `false`
 since | `0.9.0`
@@ -3177,7 +3180,7 @@ For use with buttons and input elements. If `true`, the element will be disabled
 
 | property | value
 --- | ---
-type | `NUMBER`
+type | `BOOL`
 defaultValue | `undefined`
 isMeta | `false`
 since | `0.9.0`
@@ -3228,7 +3231,7 @@ The canvas name(s) that should be opened when clicking/pressing on a button or l
 
 | property | value
 --- | ---
-type | `NUMBER`
+type | `CANVAS`
 defaultValue | `undefined`
 isMeta | `false`
 since | `0.9.0`
@@ -3263,7 +3266,7 @@ The canvas name(s) that should be closed when clicking/pressing on a button or l
 
 | property | value
 --- | ---
-type | `NUMBER`
+type | `CANVAS`
 defaultValue | `undefined`
 isMeta | `false`
 since | `0.9.0`
@@ -3438,7 +3441,7 @@ If `true`, certain input elements receive a canvas-wide hitmask to make clicking
 
 | property | value
 --- | ---
-type | `NUMBER`
+type | `BOOL`
 defaultValue | `undefined`
 isMeta | `false`
 since | `0.9.2`
@@ -3555,7 +3558,7 @@ You may attach one canvas to another under limited criteria. If a canvas has an 
 
 | property | value
 --- | ---
-type | `NUMBER`
+type | `CANVAS`
 defaultValue | `undefined`
 isMeta | `true`
 since | `0.9.2`
@@ -3590,7 +3593,7 @@ The horizontal alignment of the canvas, relative to the left-x coordinate of the
 
 | property | value
 --- | ---
-type | `NUMBER`
+type | `ALIGN`
 defaultValue | `0`
 isMeta | `true`
 since | `0.9.2`
@@ -3629,7 +3632,7 @@ The vertical alignment of the canvas, relative to the top-y coordinate of the ca
 
 | property | value
 --- | ---
-type | `NUMBER`
+type | `ALIGN`
 defaultValue | `0`
 isMeta | `true`
 since | `0.9.2`
@@ -3746,7 +3749,7 @@ The background color of the canvas. If a [**bkg_img**](#bkg_img-meta-attribute) 
 
 | property | value
 --- | ---
-type | `NUMBER`
+type | `COLOR`
 defaultValue | `16777215`
 isMeta | `true`
 since | `0.9.0`
@@ -3785,7 +3788,7 @@ The background image of the canvas. The image will be stretched to fit the canva
 
 | property | value
 --- | ---
-type | `NUMBER`
+type | `SPRITE`
 defaultValue | `undefined`
 isMeta | `true`
 since | `0.9.0`
@@ -3820,7 +3823,7 @@ This attribute has priority over the [**bkg_tiled**](#bkg_tiled-meta-attribute) 
 
 | property | value
 --- | ---
-type | `NUMBER`
+type | `BOOL`
 defaultValue | `0`
 isMeta | `true`
 since | `0.9.0`
@@ -3851,7 +3854,7 @@ If `false`, the background image will be stretched to fit the size of the canvas
 
 | property | value
 --- | ---
-type | `NUMBER`
+type | `BOOL`
 defaultValue | `1`
 isMeta | `true`
 since | `0.9.0`
@@ -3882,7 +3885,7 @@ If true, a full-screen rectangle is drawn beneath the canvas. This "blocks" user
 
 | property | value
 --- | ---
-type | `NUMBER`
+type | `BOOL`
 defaultValue | `0`
 isMeta | `true`
 since | `0.9.0`
@@ -3960,7 +3963,7 @@ If [**blocking**](#blocking-meta-attribute) is enabled, this attribute is the co
 
 | property | value
 --- | ---
-type | `NUMBER`
+type | `COLOR`
 defaultValue | `2696481`
 isMeta | `true`
 since | `0.9.0`
@@ -3995,7 +3998,7 @@ The string of text in the caption bar of the canvas.
 
 | property | value
 --- | ---
-type | `NUMBER`
+type | `STRING`
 defaultValue | `undefined`
 isMeta | `true`
 since | `0.9.0`
@@ -4026,7 +4029,7 @@ The background color of the canvas's caption bar.
 
 | property | value
 --- | ---
-type | `NUMBER`
+type | `COLOR`
 defaultValue | `6179124`
 isMeta | `true`
 since | `0.9.0`
@@ -4065,7 +4068,7 @@ The background color of the canvas's caption bar when the canvas caption bar is 
 
 | property | value
 --- | ---
-type | `NUMBER`
+type | `COLOR`
 defaultValue | `5258796`
 isMeta | `true`
 since | `0.9.0`
@@ -4104,7 +4107,7 @@ The [**caption**](#caption-meta-attribute) text color in the canvas's caption ba
 
 | property | value
 --- | ---
-type | `NUMBER`
+type | `COLOR`
 defaultValue | `15855852`
 isMeta | `true`
 since | `0.9.0`
@@ -4143,7 +4146,7 @@ The [**caption**](#caption-meta-attribute) text color in the canvas's caption ba
 
 | property | value
 --- | ---
-type | `NUMBER`
+type | `COLOR`
 defaultValue | `16777215`
 isMeta | `true`
 since | `0.9.0`
@@ -4182,7 +4185,7 @@ The horizontal alignment of the [**caption**](#caption-meta-attribute) text with
 
 | property | value
 --- | ---
-type | `NUMBER`
+type | `ALIGN`
 defaultValue | `0`
 isMeta | `true`
 since | `0.9.0`
@@ -4256,7 +4259,7 @@ If `true`, the canvas will be closed automatically when a click occurs outside o
 
 | property | value
 --- | ---
-type | `NUMBER`
+type | `BOOL`
 defaultValue | `0`
 isMeta | `true`
 since | `0.9.0`
@@ -4291,7 +4294,7 @@ If `true`, a close button will appear in the right of the caption bar. Clicking 
 
 | property | value
 --- | ---
-type | `NUMBER`
+type | `BOOL`
 defaultValue | `0`
 isMeta | `true`
 since | `0.9.2`
@@ -4328,7 +4331,7 @@ You can pass three arguments to this attribute (separated by colons `:`) as a wa
 
 | property | value
 --- | ---
-type | `NUMBER`
+type | `EASE`
 defaultValue | `0`
 isMeta | `true`
 since | `0.9.0`
@@ -4455,7 +4458,7 @@ You can pass three arguments to this attribute (separated by colons `:`) as a wa
 
 | property | value
 --- | ---
-type | `NUMBER`
+type | `EASE`
 defaultValue | `0`
 isMeta | `true`
 since | `0.9.0`
@@ -4584,7 +4587,7 @@ The default color of the text on the canvas.
 
 | property | value
 --- | ---
-type | `NUMBER`
+type | `COLOR`
 defaultValue | `2696481`
 isMeta | `true`
 since | `0.9.0`
@@ -4697,7 +4700,7 @@ If `true`, the canvas will be marked as draggable. This allows the canvas to be 
 
 | property | value
 --- | ---
-type | `NUMBER`
+type | `BOOL`
 defaultValue | `0`
 isMeta | `true`
 since | `0.9.0`
@@ -4728,7 +4731,7 @@ If `true`, this canvas can be closed by pressing the escape key on the keyboard.
 
 | property | value
 --- | ---
-type | `NUMBER`
+type | `BOOL`
 defaultValue | `0`
 isMeta | `true`
 since | `0.9.1`
@@ -4837,7 +4840,7 @@ If `true`, when a window resize occurs, the opening eases and fade-in will be sk
 
 | property | value
 --- | ---
-type | `NUMBER`
+type | `BOOL`
 defaultValue | `1`
 isMeta | `true`
 since | `0.9.2`
@@ -4876,7 +4879,7 @@ The function to call the last gamestep the canvas exists. The scope of the funct
 
 | property | value
 --- | ---
-type | `NUMBER`
+type | `FUNCTION`
 defaultValue | `undefined`
 isMeta | `true`
 since | `0.9.0`
@@ -4907,7 +4910,7 @@ If the canvas is marked as [**draggable**](#draggable-meta-attribute), this func
 
 | property | value
 --- | ---
-type | `NUMBER`
+type | `FUNCTION`
 defaultValue | `undefined`
 isMeta | `true`
 since | `0.9.0`
@@ -4938,7 +4941,7 @@ This function is called at a canvas-level scope each gamestep the canvas exists.
 
 | property | value
 --- | ---
-type | `NUMBER`
+type | `FUNCTION`
 defaultValue | `undefined`
 isMeta | `true`
 since | `0.9.0`
@@ -4969,7 +4972,7 @@ The function to call the first gamestep the canvas is created. The scope of the 
 
 | property | value
 --- | ---
-type | `NUMBER`
+type | `FUNCTION`
 defaultValue | `undefined`
 isMeta | `true`
 since | `0.9.0`
@@ -5000,7 +5003,7 @@ The function to call each gamestep the game window is resized. The scope of the 
 
 | property | value
 --- | ---
-type | `NUMBER`
+type | `FUNCTION`
 defaultValue | `undefined`
 isMeta | `true`
 since | `0.9.0`
@@ -5031,7 +5034,7 @@ The function to call each gamestep the canvas exists. The scope of the function 
 
 | property | value
 --- | ---
-type | `NUMBER`
+type | `FUNCTION`
 defaultValue | `undefined`
 isMeta | `true`
 since | `0.9.0`
@@ -5062,7 +5065,7 @@ The function to call whenever an input (checkbox, toggle, radio button, textfiel
 
 | property | value
 --- | ---
-type | `NUMBER`
+type | `FUNCTION`
 defaultValue | `undefined`
 isMeta | `true`
 since | `0.9.0`
@@ -5093,7 +5096,7 @@ The horizontal alignment of the canvas, relative to the left-x coordinate. `fa_c
 
 | property | value
 --- | ---
-type | `NUMBER`
+type | `ALIGN`
 defaultValue | `0`
 isMeta | `true`
 since | `0.9.0`
@@ -5159,7 +5162,7 @@ If set to a valid sprite, such sprite will be drawn in the left of the caption b
 
 | property | value
 --- | ---
-type | `NUMBER`
+type | `SPRITE`
 defaultValue | `-1`
 isMeta | `true`
 since | `0.9.2`
@@ -5190,7 +5193,7 @@ Use this attribute to close other canvases the gamestep *this* canvas is closed.
 
 | property | value
 --- | ---
-type | `NUMBER`
+type | `CANVAS`
 defaultValue | `undefined`
 isMeta | `true`
 since | `0.9.2`
@@ -5225,7 +5228,7 @@ Use this attribute to create other canvases the gamestep *this* canvas is closed
 
 | property | value
 --- | ---
-type | `NUMBER`
+type | `CANVAS`
 defaultValue | `undefined`
 isMeta | `true`
 since | `0.9.2`
@@ -5260,7 +5263,7 @@ Use this attribute to close other canvases the gamestep *this* canvas is created
 
 | property | value
 --- | ---
-type | `NUMBER`
+type | `CANVAS`
 defaultValue | `undefined`
 isMeta | `true`
 since | `0.9.2`
@@ -5295,7 +5298,7 @@ Use this attribute to create other canvases the gamestep *this* canvas is create
 
 | property | value
 --- | ---
-type | `NUMBER`
+type | `CANVAS`
 defaultValue | `undefined`
 isMeta | `true`
 since | `0.9.2`
@@ -5332,7 +5335,7 @@ You can pass three arguments to this attribute (separated by colons `:`) as a wa
 
 | property | value
 --- | ---
-type | `NUMBER`
+type | `EASE`
 defaultValue | `0`
 isMeta | `true`
 since | `0.9.0`
@@ -5463,7 +5466,7 @@ You can pass three arguments to this attribute (separated by colons `:`) as a wa
 
 | property | value
 --- | ---
-type | `NUMBER`
+type | `EASE`
 defaultValue | `0`
 isMeta | `true`
 since | `0.9.0`
@@ -5627,7 +5630,7 @@ The color of placeholder text in textfields.
 
 | property | value
 --- | ---
-type | `NUMBER`
+type | `COLOR`
 defaultValue | `8222060`
 isMeta | `true`
 since | `0.9.0`
@@ -5666,7 +5669,7 @@ The color of placeholder text in textfields, while the textfield is in focus.
 
 | property | value
 --- | ---
-type | `NUMBER`
+type | `COLOR`
 defaultValue | `12167836`
 isMeta | `true`
 since | `0.9.0`
@@ -5740,7 +5743,7 @@ If `true`, the canvas will be reconstructed when a window resize is detected. Th
 
 | property | value
 --- | ---
-type | `NUMBER`
+type | `BOOL`
 defaultValue | `1`
 isMeta | `true`
 since | `0.9.2`
@@ -5814,7 +5817,7 @@ The color of the canvas shadow.
 
 | property | value
 --- | ---
-type | `NUMBER`
+type | `COLOR`
 defaultValue | `2696481`
 isMeta | `true`
 since | `0.9.0`
@@ -5958,7 +5961,7 @@ The sound that plays the final gamestep the canvas exists.
 
 | property | value
 --- | ---
-type | `NUMBER`
+type | `SOUND`
 defaultValue | `undefined`
 isMeta | `true`
 since | `0.9.0`
@@ -5993,7 +5996,7 @@ The sound that plays the first gamestep the canvas is created.
 
 | property | value
 --- | ---
-type | `NUMBER`
+type | `SOUND`
 defaultValue | `undefined`
 isMeta | `true`
 since | `0.9.0`
@@ -6024,7 +6027,7 @@ If `true`, this canvas, when created, will steal input priority over existing ca
 
 | property | value
 --- | ---
-type | `NUMBER`
+type | `BOOL`
 defaultValue | `0`
 isMeta | `true`
 since | `0.9.1`
@@ -6055,7 +6058,7 @@ The color of the text input flashing ticker.
 
 | property | value
 --- | ---
-type | `NUMBER`
+type | `COLOR`
 defaultValue | `4209204`
 isMeta | `true`
 since | `0.9.0`
@@ -6094,7 +6097,7 @@ The vertical alignment of the canvas, relative to the top-y coordinate. `fa_midd
 
 | property | value
 --- | ---
-type | `NUMBER`
+type | `ALIGN`
 defaultValue | `0`
 isMeta | `true`
 since | `0.9.0`
@@ -6125,7 +6128,7 @@ For compatibility purposes and/or future-proofing, you can define which version 
 
 | property | value
 --- | ---
-type | `NUMBER`
+type | `STRING`
 defaultValue | `0.9.2`
 isMeta | `true`
 since | `0.9.0`
@@ -6538,6 +6541,100 @@ The above code takes the classes and applies them to tags using **dot-reference*
 [span, bg=yellow, c=black]This text is black with a yellow background[/span]
 [function, scr="test_callback_function"]click me![/function]
 ```
+
+
+
+## Screen Size
+
+You may use C language processor-like syntax for designing canvases differently based on screen size.
+
+Note that you **must** be using out-of-the-box Shampoo resize handling (see [Installation and Setup](#installation-and-setup)).
+
+Further, the canvas meta attribute [**resize_recreate**](#resize_recreate-meta-attribute) must be set to `true` as the canvas needs to be re-generated when the window size is changed.
+
+The following sizes are available: `XL`, `L`, `M`, `S`, `XS`. Their pixel sizes are defined in macros `SH_SIZE_*`, where `*` is the size name.
+
+Canvas code between lines **starting with** `#ifdef` and `#endif` will only be parsed if the *horizontal window size* is greater than, or equal to, the conditional requirements.
+
+Use the following syntax:
+- `#ifdef` followed by sizes, separated by `or`
+- `#endif` to end the switch
+- `#elif` followed by sizes, separated by `or`
+- `#else` covers anything not already accounted for
+
+### Examples
+```
+// standard if, elif
+#ifdef XL~
+extra large window detected
+#elif L
+large screen window detected
+#elif M
+medium screen window detected
+#elif S or XS
+extra small, or small, screen window detected
+#endif
+```
+
+```
+// only XL or L
+#ifdef XL or L
+# Big screen!
+#endif
+
+```
+
+```
+// only XL or L with else
+#ifdef XL or L
+# Big screen!
+#else
+### Not a big screen!
+#endif
+
+```
+
+```
+// change class based on screen size
+
+.resizeClass{}
+
+#if XL
+.resizeClass{bkg=purple-4, width=480, shadow-color=purple-4, h=240, c=white}
+#elif L
+.resizeClass{bkg=red-4, width=640, shadow-color=red-4, h=320, c=white}
+#elif M
+.resizeClass{bkg=yellow-4, width=480, rad=64, shadow-color=yellow-4, h=512, c=white}
+#elif S
+.resizeClass{bkg=green-4, width=350,shadow-color=green-4, h=400, c=white}
+#elif XS
+.resizeClass{bkg=blue-4, width=320, shadow-color=blue-4, h=320, c=purple-500}
+#endif
+
+```
+
+```
+// display different things based on screen size
+#if XL
+## the window is **extra large**
+#elif L
+## the window is **large**
+#elif M
+### the window is **medium** 
+[right]right[/right]
+[center]center[/center]
+[br, h=96 /]
+[button, scr=sh_log?args=test, id="btn-m", w=200, h=64, c=white, img=SH_IMG_BUTTON_GREEN, content="Green button", order=1, tooltip="green", hover-y=4 /]
+#elif S
+### the window is **small**
+[br, h=32 /]
+[button, scr=sh_log?args=test, id="btn-m", w=400, h=64, c=white, img=SH_IMG_BUTTON_ORANGE, content="Orange button", tooltip="orange", hover-y=4 /]
+#else
+#### the window is **extra small**
+#endif
+[/center]
+```
+
 
 
 
