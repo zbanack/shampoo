@@ -6562,10 +6562,10 @@ Further, the canvas meta attribute [**resize_recreate**](#resize_recreate-meta-a
 
 The following sizes are available: `XL`, `L`, `M`, `S`, `XS`. Their pixel sizes are defined in macros `SH_SIZE_*`, where `*` is the size name.
 
-Canvas code between lines **starting with** `#ifdef` and `#endif` will only be parsed if the *horizontal window size* is greater than, or equal to, the conditional requirements.
+Canvas code between lines **starting with** `#if` and `#endif` will only be parsed if the *horizontal window size* is greater than, or equal to, the conditional requirements.
 
 Use the following syntax:
-- `#ifdef` followed by sizes, separated by `or`
+- `#if` followed by sizes, separated by `or`
 - `#endif` to end the switch
 - `#elif` followed by sizes, separated by `or`
 - `#else` covers anything not already accounted for
@@ -6573,7 +6573,7 @@ Use the following syntax:
 ### Examples
 ```
 // standard if, elif
-#ifdef XL~
+#if XL~
 extra large window detected
 #elif L
 large screen window detected
@@ -6586,7 +6586,7 @@ extra small, or small, screen window detected
 
 ```
 // only XL or L
-#ifdef XL or L
+#if XL or L
 # Big screen!
 #endif
 
@@ -6594,7 +6594,7 @@ extra small, or small, screen window detected
 
 ```
 // only XL or L with else
-#ifdef XL or L
+#if XL or L
 # Big screen!
 #else
 ### Not a big screen!
