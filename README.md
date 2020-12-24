@@ -9,7 +9,7 @@
 
 📚 **Documentation** for the GameMaker GUI framework, Shampoo
 
-✏ **Framework v0.9.3**; last modified 12/24/20 by [Zack Banack](https://zackbanack.com)
+✏ **Framework v0.9.2**; last modified 12/24/20 by [Zack Banack](https://zackbanack.com)
 
 🔵 [**itch storefront**](https://zackbanack.itch.io/shampoo)
 
@@ -72,7 +72,7 @@ A canvas must be **regenerated** if you wish for any [Meta Attributes](#meta-att
 The framework also understands that [surfaces in GameMaker are volatile](https://docs2.yoyogames.com/source/_build/3_scripting/4_gml_reference/drawing/surfaces/index.html). Shampoo does all the behind-the-scenes work to ensure surfaces exist and are re-created when necessary.
 
 ### Security
-As of version 0.8.2, Shampoo supports file checksums to deter tampering. When a live update file change is registered (or `control + G` is pressed in non-release mode), a checksum is generated of all files in the `/shampoo/` directory. When in release mode, if the checksums do not match, stub script `shampoo_checksum_failed` is called which you can fill with your own code. You can enable checksum hashing by setting the fifth parameter (bool `compare_checksums`) in initialization function, `shampoo_init`.
+As of version 0.9.2, Shampoo supports file checksums to deter tampering. When a live update file change is registered (or `control + G` is pressed in non-release mode), a checksum is generated of all files in the `/shampoo/` directory. When in release mode, if the checksums do not match, stub script `shampoo_checksum_failed` is called which you can fill with your own code. You can enable checksum hashing by setting the fifth parameter (bool `compare_checksums`) in initialization function, `shampoo_init`.
 
 ### Useful functions
 The following functions are developer facing. Most of these functions are located within the framework's `__ShampooUserFacing` script.
