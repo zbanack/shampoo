@@ -27,7 +27,7 @@ Shampoo is a [GameMaker Studio 2.3](https://www.yoyogames.com/) (GMS 2.3) framew
 - [Types](#types)
 - [Tags](#tags)
 - [Attributes](#attributes)
-- [Meta](#meta)
+- [Meta Attributes](#meta-attributes)
 - [User Input and Capturing](#user-input-and-capturing)
 - [Variables and Dynamic Content](#variables-and-dynamic-content)
 - [Symbols](#symbols)
@@ -67,7 +67,7 @@ You can comment out code in files using double-slash comments at the *start* of 
 ### Canvas drawing and refreshing
 Canvases are drawn to surfaces. If content on a canvas is updated, the canvas needs to be **refreshed** for it to be visible. You can use function `shampoo_canvas_refresh(string:uid)` to refresh a canvas. Shampoo handles most user-input related refreshes automatically.
 
-A canvas must be **regenerated** if you wish for any [meta](#meta) attributes to change, or any elements to be added or removed. You can use function `shampoo_canvas_regenerate(string:uid)` to regenerate a canvas.
+A canvas must be **regenerated** if you wish for any [Meta Attributes](#meta-attributes) to change, or any elements to be added or removed. You can use function `shampoo_canvas_regenerate(string:uid)` to regenerate a canvas.
 
 The framework also understands that [surfaces in GameMaker are volatile](https://docs2.yoyogames.com/source/_build/3_scripting/4_gml_reference/drawing/surfaces/index.html). Shampoo does all the behind-the-scenes work to ensure surfaces exist and are re-created when necessary.
 
