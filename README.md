@@ -3,11 +3,13 @@
 ### This documentation is still a WIP, so please excuse incomplete information and typos!
 #### The highly in-depth demo included with the framework should be more than enough to show you a majority of features.
 
+#### Included Demo showcase video:
+
 [![Shampoo Demo Showcase](http://img.youtube.com/vi/vLIDNX8VmfY/0.jpg)](http://www.youtube.com/watch?v=vLIDNX8VmfY "Shampoo Demo Showcase")
 
 📚 **Documentation** for the GameMaker GUI framework, Shampoo
 
-✏ **Framework v0.9.2**; last modified 12/23/20 by [Zack Banack](https://zackbanack.com)
+✏ **Framework v0.9.3**; last modified 12/24/20 by [Zack Banack](https://zackbanack.com)
 
 🔵 [**itch storefront**](https://zackbanack.itch.io/shampoo)
 
@@ -286,15 +288,6 @@ A string that must resolve to a valid sound name. If no such sound can be resolv
 
 ### Canvas
 A string that must resolve to a valid canvas file name. If no such sound can be resolved, `undefined` is returned.
-
-## Attributes
-
-Attributes are passed into [tags](#tags) to customize canvas [elements](#introduction). Conversely, [Meta Attributes](#meta) customize the canvas as a whole.
-
-
-## Meta Attributes
-
-The **meta tag** should be declared once at the top of the canvas file. The meta tag accepts all meta attributes. These attributes are special in that they affect the entire canvas rather than individual elements within. Note that you must provide a closing slash when working with meta tags e.g. (`[meta ... /]`).
 
 ## Tags
 
@@ -1376,6 +1369,11 @@ deprecated | `false`
 [toggle, indent=100, valueX=300, id="toggle2", checked=false, value="Milk" /]
 ```
 
+
+
+## Attributes
+
+Attributes are passed into [tags](#tags) to customize canvas [elements](#introduction). Conversely, [Meta Attributes](#meta) customize the canvas as a whole.
 
 ___
 ### alpha (attribute)
@@ -3554,6 +3552,10 @@ deprecated | `false`
 ```
 
 
+
+## Meta Attributes
+
+The **meta tag** should be declared once at the top of the canvas file. The meta tag accepts all meta attributes. These attributes are special in that they affect the entire canvas rather than individual elements within. Note that you must provide a closing slash when working with meta tags e.g. (`[meta ... /]`).
 ___
 ### attach (meta attribute)
 You may attach one canvas to another under limited criteria. If a canvas has an attachment, it cannot be attached to another canvas. The canvas with the lower [**depth**](#depth-meta-attribute) gets updated first, so attach canvases with that have higher-depths to canvases with lower-depths or the coordinate updating will lag behind by one gamestep. Canvases that are attached may not have a [**caption**](#caption-meta-attribute) bar and cannot be marked as [**draggable**](#draggable-meta-attribute), even if the canvas being attached to no longer exists.
@@ -6135,7 +6137,7 @@ For compatibility purposes and/or future-proofing, you can define which version 
 | property | value
 --- | ---
 type | `STRING`
-defaultValue | `0.9.2`
+defaultValue | `0.9.3`
 isMeta | `true`
 since | `0.9.0`
 deprecated | `false`
