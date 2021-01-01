@@ -3,13 +3,11 @@
 ### This documentation is still a WIP, so please excuse incomplete information and typos!
 #### The highly in-depth demo included with the framework should be more than enough to show you a majority of features.
 
-#### Included Demo showcase video:
-
 [![Shampoo Demo Showcase](http://img.youtube.com/vi/vLIDNX8VmfY/0.jpg)](http://www.youtube.com/watch?v=vLIDNX8VmfY "Shampoo Demo Showcase")
 
 📚 **Documentation** for the GameMaker GUI framework, Shampoo
 
-✏ **Framework v0.9.2**; last modified 12/24/20 by [Zack Banack](https://zackbanack.com)
+✏ **Framework v0.9.21**; last modified 1/1/21 by [Zack Banack](https://zackbanack.com)
 
 🔵 [**itch storefront**](https://zackbanack.itch.io/shampoo)
 
@@ -27,7 +25,7 @@ Shampoo is a [GameMaker Studio 2.3](https://www.yoyogames.com/) (GMS 2.3) framew
 - [Types](#types)
 - [Tags](#tags)
 - [Attributes](#attributes)
-- [Meta Attributes](#meta-attributes)
+- [Meta](#meta)
 - [User Input and Capturing](#user-input-and-capturing)
 - [Variables and Dynamic Content](#variables-and-dynamic-content)
 - [Symbols](#symbols)
@@ -67,12 +65,12 @@ You can comment out code in files using double-slash comments at the *start* of 
 ### Canvas drawing and refreshing
 Canvases are drawn to surfaces. If content on a canvas is updated, the canvas needs to be **refreshed** for it to be visible. You can use function `shampoo_canvas_refresh(string:uid)` to refresh a canvas. Shampoo handles most user-input related refreshes automatically.
 
-A canvas must be **regenerated** if you wish for any [Meta Attributes](#meta-attributes) to change, or any elements to be added or removed. You can use function `shampoo_canvas_regenerate(string:uid)` to regenerate a canvas.
+A canvas must be **regenerated** if you wish for any [meta](#meta) attributes to change, or any elements to be added or removed. You can use function `shampoo_canvas_regenerate(string:uid)` to regenerate a canvas.
 
 The framework also understands that [surfaces in GameMaker are volatile](https://docs2.yoyogames.com/source/_build/3_scripting/4_gml_reference/drawing/surfaces/index.html). Shampoo does all the behind-the-scenes work to ensure surfaces exist and are re-created when necessary.
 
 ### Security
-As of version 0.9.2, Shampoo supports file checksums to deter tampering. When a live update file change is registered (or `control + G` is pressed in non-release mode), a checksum is generated of all files in the `/shampoo/` directory. When in release mode, if the checksums do not match, stub script `shampoo_checksum_failed` is called which you can fill with your own code. You can enable checksum hashing by setting the fifth parameter (bool `compare_checksums`) in initialization function, `shampoo_init`.
+As of version 0.8.2, Shampoo supports file checksums to deter tampering. When a live update file change is registered (or `control + G` is pressed in non-release mode), a checksum is generated of all files in the `/shampoo/` directory. When in release mode, if the checksums do not match, stub script `shampoo_checksum_failed` is called which you can fill with your own code. You can enable checksum hashing by setting the fifth parameter (bool `compare_checksums`) in initialization function, `shampoo_init`.
 
 ### Useful functions
 The following functions are developer facing. Most of these functions are located within the framework's `__ShampooUserFacing` script.
@@ -289,6 +287,15 @@ A string that must resolve to a valid sound name. If no such sound can be resolv
 ### Canvas
 A string that must resolve to a valid canvas file name. If no such sound can be resolved, `undefined` is returned.
 
+## Attributes
+
+Attributes are passed into [tags](#tags) to customize canvas [elements](#introduction). Conversely, [Meta Attributes](#meta) customize the canvas as a whole.
+
+
+## Meta Attributes
+
+The **meta tag** should be declared once at the top of the canvas file. The meta tag accepts all meta attributes. These attributes are special in that they affect the entire canvas rather than individual elements within. Note that you must provide a closing slash when working with meta tags e.g. (`[meta ... /]`).
+
 ## Tags
 
 Tags are the building blocks of canvases. Tags form elements, like text, buttons, images, checkboxes, radio buttons, textfields, and more. This section outlines all tags currently available in the Shampoo framework. Tags can be nested and Shampoo will try its best to resolve formatting. If no tags are provided, the parser defaults to attribute values as defined in the framework configuration files.
@@ -434,7 +441,7 @@ deprecated | `false`
 #### Examples
 
 ```
-[img src=my_image, blend=red, frame=1, width=200, height=200, float-x=50, float-y=50, alpha=50 /]
+[img, src=my_image, blend=red, frame=1, width=200, height=200, float-x=50, float-y=50, alpha=50 /]
 ```
 
 
@@ -1284,7 +1291,7 @@ deprecated | `false`
 
 #### Compatible Attributes
 
-[bkg_color](#bkg_color-attribute), [bkg_color_alt](#bkg_color_alt-attribute), [color](#color-attribute), [disabled](#disabled-attribute), [height](#height-attribute), [image](#image-attribute), [image2](#image2-attribute), [indent](#indent-attribute), [input_id](#input_id-attribute), [input_interval](#input_interval-attribute), [input_max_value](#input_max_value-attribute), [input_min_value](#input_min_value-attribute), [order](#order-attribute), [shake_not_enabled](#shake_not_enabled-attribute), [sound](#sound-attribute), [value_prefix](#value_prefix-attribute), [value_suffix](#value_suffix-attribute), [value_x_offset](#value_x_offset-attribute), [value_y_offset](#value_y_offset-attribute), , 
+[bkg_color](#bkg_color-attribute), [bkg_color_alt](#bkg_color_alt-attribute), [color](#color-attribute), [disabled](#disabled-attribute), [height](#height-attribute), [image](#image-attribute), [image2](#image2-attribute), [indent](#indent-attribute), [input_id](#input_id-attribute), [input_interval](#input_interval-attribute), [input_max_value](#input_max_value-attribute), [input_min_value](#input_min_value-attribute), [input_value](#input_value-attribute), [order](#order-attribute), [shake_not_enabled](#shake_not_enabled-attribute), [sound](#sound-attribute), [value_prefix](#value_prefix-attribute), [value_suffix](#value_suffix-attribute), [value_x_offset](#value_x_offset-attribute), [value_y_offset](#value_y_offset-attribute), , 
 
 #### Examples
 
@@ -1369,11 +1376,6 @@ deprecated | `false`
 [toggle, indent=100, valueX=300, id="toggle2", checked=false, value="Milk" /]
 ```
 
-
-
-## Attributes
-
-Attributes are passed into [tags](#tags) to customize canvas [elements](#introduction). Conversely, [Meta Attributes](#meta) customize the canvas as a whole.
 
 ___
 ### alpha (attribute)
@@ -2512,7 +2514,7 @@ deprecated | `false`
 
 #### Compatible Tags
 
-[checkbox](#checkbox-tag), [radio](#radio-tag), [textarea](#textarea-tag), [toggle](#toggle-tag)
+[checkbox](#checkbox-tag), [radio](#radio-tag), [slider](#slider-tag), [textarea](#textarea-tag), [toggle](#toggle-tag)
 
 #### Examples
 
@@ -3552,10 +3554,6 @@ deprecated | `false`
 ```
 
 
-
-## Meta Attributes
-
-The **meta tag** should be declared once at the top of the canvas file. The meta tag accepts all meta attributes. These attributes are special in that they affect the entire canvas rather than individual elements within. Note that you must provide a closing slash when working with meta tags e.g. (`[meta ... /]`).
 ___
 ### attach (meta attribute)
 You may attach one canvas to another under limited criteria. If a canvas has an attachment, it cannot be attached to another canvas. The canvas with the lower [**depth**](#depth-meta-attribute) gets updated first, so attach canvases with that have higher-depths to canvases with lower-depths or the coordinate updating will lag behind by one gamestep. Canvases that are attached may not have a [**caption**](#caption-meta-attribute) bar and cannot be marked as [**draggable**](#draggable-meta-attribute), even if the canvas being attached to no longer exists.
@@ -6137,7 +6135,7 @@ For compatibility purposes and/or future-proofing, you can define which version 
 | property | value
 --- | ---
 type | `STRING`
-defaultValue | `0.9.3`
+defaultValue | `0.9.21`
 isMeta | `true`
 since | `0.9.0`
 deprecated | `false`
@@ -6562,10 +6560,10 @@ Further, the canvas meta attribute [**resize_recreate**](#resize_recreate-meta-a
 
 The following sizes are available: `XL`, `L`, `M`, `S`, `XS`. Their pixel sizes are defined in macros `SH_SIZE_*`, where `*` is the size name.
 
-Canvas code between lines **starting with** `#if` and `#endif` will only be parsed if the *horizontal window size* is greater than, or equal to, the conditional requirements.
+Canvas code between lines **starting with** `#ifdef` and `#endif` will only be parsed if the *horizontal window size* is greater than, or equal to, the conditional requirements.
 
 Use the following syntax:
-- `#if` followed by sizes, separated by `or`
+- `#ifdef` followed by sizes, separated by `or`
 - `#endif` to end the switch
 - `#elif` followed by sizes, separated by `or`
 - `#else` covers anything not already accounted for
@@ -6573,7 +6571,7 @@ Use the following syntax:
 ### Examples
 ```
 // standard if, elif
-#if XL~
+#ifdef XL~
 extra large window detected
 #elif L
 large screen window detected
@@ -6586,7 +6584,7 @@ extra small, or small, screen window detected
 
 ```
 // only XL or L
-#if XL or L
+#ifdef XL or L
 # Big screen!
 #endif
 
@@ -6594,7 +6592,7 @@ extra small, or small, screen window detected
 
 ```
 // only XL or L with else
-#if XL or L
+#ifdef XL or L
 # Big screen!
 #else
 ### Not a big screen!
