@@ -7,7 +7,7 @@
 
 📚 **Documentation** for the GameMaker GUI framework, Shampoo
 
-✏ **Framework v0.9.21**; last modified 1/1/21 by [Zack Banack](https://zackbanack.com)
+✏ **Framework v0.9.3**; last modified 4/21/21 by [Zack Banack](https://zackbanack.com)
 
 🔵 [**itch storefront**](https://zackbanack.itch.io/shampoo)
 
